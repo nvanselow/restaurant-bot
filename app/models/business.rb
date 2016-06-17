@@ -23,14 +23,14 @@ class Business
   def attachments
     [
       {
-        fallback: "The Yelp logo",
-        title: "Yelp Logo",
-        image_url: "https://obscure-eyrie-21980.herokuapp.com/images/yelp.png"
-      },
-      {
         fallback: "Ratings",
         title: "#{@review_count} ratings",
         image_url: @rating_image
+      },
+      {
+        fallback: "The Yelp logo",
+        title: "Yelp Logo",
+        image_url: "https://obscure-eyrie-21980.herokuapp.com/images/yelp.png"
       }
     ]
   end
