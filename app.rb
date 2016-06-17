@@ -52,7 +52,7 @@ def get_businesses
     })
 
   search_params = {
-    limit: 10,
+    limit: 20,
     radius_filter: 2000
   }
   client.search(current_address, search_params)
@@ -60,9 +60,9 @@ end
 
 def rating_in_words(rating)
   rating = rating.to_f
-  if(rating > 4)
+  if(rating >= 4)
     "This place seems great: "
-  elsif(rating > 3 && rating < 4)
+  elsif(rating.between?(3, 4))
     "This place seems ok: "
   else
     "This place might not be so good: "
