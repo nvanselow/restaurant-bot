@@ -6,7 +6,33 @@ require 'uri'
 require_relative 'config/application'
 
 get '/' do
-  # binding.pry
+  # if(params[:token] != ENV['SLACK_TOKEN'])
+  #   return halt 404, "Sorry, this is only for a particular slack channel"
+  # end
+
+  response = get_businesses
+  open_businesses = response.businesses.select { |business| !business.is_closed }
+
+  if(open_businesses.empty?)
+    @message = "Sorry, there are no open restaurants nearby. Try again later."
+  else
+    business = open_businesses.sample
+
+    @message = rating_in_words(business.rating)
+    @message << business.name
+    @message << stringify_business_details(business)
+  end
+
+  erb :index
+end
+
+private
+
+def current_address
+  '33 Harrison Ave Boston, MA 02111'
+end
+
+def get_businesses
   client = Yelp::Client.new({
       consumer_key: ENV['YELP_CONSUMER_KEY'],
       consumer_secret: ENV['YELP_CONSUMER_SECRET'],
@@ -18,35 +44,20 @@ get '/' do
     limit: 10,
     radius_filter: 2000
   }
-  # binding.pry
-  response = client.search('33 Harrison Ave Boston, MA 02111', search_params)
-  # https://api.yelp.com/v2/search/?location=33 Harrison Ave, Boston, MA&limit=10&radius_filter=1500
-  # response = HTTParty.post(create_yelp_query, build_body)
-  @business = response.businesses.sample
-
-  erb :index
+  client.search(current_address, search_params)
 end
 
-private
-
-def current_address
-  '33 Harrison Ave Boston, MA 02111'
+def rating_in_words(rating)
+  rating = rating.to_f
+  if(rating > 4)
+    "This place seems great: "
+  elsif(rating > 3 && rating < 4)
+    "This place seems ok: "
+  else
+    "This place might not be so good: "
+  end
 end
 
-def create_yelp_query
-  URI.escape("https://api.yelp.com/v2/search/?location=33 Harrison Ave Boston MA&limit=10&radius_filter=1500")
-end
-
-def build_body
-  {
-    body: {
-      oauth_consumer_key: ENV['YELP_CONSUMER_KEY'],
-      oauth_token: ENV['YELP_TOKEN'],
-      oauth_signature_method: 'hmac-sha1',
-      oauth_signature: ENV['YELP_TOKEN_SECRET'],
-      # consumer_secret: ENV['YELP_CONSUMER_SECRET'],
-      oauth_timestamp: Time.now.to_i,
-      oauth_nonce: SecureRandom.base64
-    }
-  }
+def stringify_business_details(business)
+  " (#{business.location.address[0]}, #{business.location.city}, #{business.location.state_code} #{business.location.postal_code})"
 end
