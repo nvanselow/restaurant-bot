@@ -6,6 +6,7 @@ gem 'sinatra'
 gem 'sinatra-activerecord'
 gem 'sinatra-contrib'
 gem 'sinatra-flash'
+gem 'yelp', require: 'yelp'
 
 group :test, :development do
   gem 'pry'
