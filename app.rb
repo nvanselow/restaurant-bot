@@ -30,7 +30,7 @@ get '/' do
       },
       {
         fallback: "Ratings",
-        title: business.review_count,
+        title: "#{business.review_count} ratings",
         image_url: business.rating_img_url_small
       }
     ]
