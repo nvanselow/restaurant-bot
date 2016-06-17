@@ -10,6 +10,7 @@ gem 'yelp', require: 'yelp'
 
 group :test, :development do
   gem 'pry'
+  gem 'dotenv'
 end
 
 group :test do
