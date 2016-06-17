@@ -25,4 +25,6 @@ To setup this slack command:
 Then you should be setup to run the slash command and get your lunch idea.
 
 The slack integration will return a restaurant (only ones that are open), and its rating, plus some other images required for using the Yelp API.
-![Sample Slack Response](public/images/sample_response.png "Sample Slack Response")
+<!-- ![Sample Slack Response](public/images/sample_response.png "Sample Slack Response") -->
+
+<img src="public/images/sample_response.png" alt="Sample Slack Response" style="width:425px;height:228px; />
