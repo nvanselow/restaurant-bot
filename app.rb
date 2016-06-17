@@ -22,7 +22,7 @@ get '/' do
   response = client.search('33 Harrison Ave Boston, MA 02111', search_params)
   # https://api.yelp.com/v2/search/?location=33 Harrison Ave, Boston, MA&limit=10&radius_filter=1500
   # response = HTTParty.post(create_yelp_query, build_body)
-  @business = responses.businesses.sample
+  @business = response.businesses.sample
 
   erb :index
 end
