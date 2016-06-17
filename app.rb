@@ -1,8 +1,6 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require 'sinatra/flash'
-require 'httparty'
-require 'uri'
+require 'json'
 require_relative 'config/application'
 
 get '/' do
@@ -14,16 +12,29 @@ get '/' do
   open_businesses = response.businesses.select { |business| !business.is_closed }
 
   if(open_businesses.empty?)
-    @message = "Sorry, there are no open restaurants nearby. Try again later."
+    message = "Sorry, there are no open restaurants nearby. Try again later."
   else
     business = open_businesses.sample
 
-    @message = rating_in_words(business.rating)
-    @message << business.name
-    @message << stringify_business_details(business)
+    message = rating_in_words(business.rating)
+    message << "\n<#{business.url}|#{business.name}>\n"
+    message << stringify_business_details(business)
   end
 
-  erb :index
+  content_type :json
+  { text: message, attachments: [
+      {
+        fallback: "The Yelp logo",
+        title: "Yelp Logo",
+        image_url: "https://obscure-eyrie-21980.herokuapp.com/images/yelp.png"
+      },
+      {
+        fallback: "Ratings",
+        title: business.review_count,
+        image_url: business.rating_img_url_small
+      }
+    ]
+  }.to_json
 end
 
 private

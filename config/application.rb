@@ -5,8 +5,6 @@ end
 
 require 'yelp'
 
-enable :sessions
-
 configure :development, :test do
   require 'pry'
 end

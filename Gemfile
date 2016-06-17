@@ -8,7 +8,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-flash'
 gem 'yelp', require: 'yelp'
-gem 'httparty'
+gem 'json'
 
 group :test, :development do
   gem 'pry'
