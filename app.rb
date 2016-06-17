@@ -40,7 +40,7 @@ end
 private
 
 def current_address
-  '33 Harrison Ave Boston, MA 02111'
+  ENV['ADDRESS']
 end
 
 def get_businesses
