@@ -2,6 +2,7 @@ require_relative 'yelp_api'
 
 class Business
   @@yelp_api = YelpApi
+  
   attr_reader :name, :url, :rating, :rating_image, :review_count
 
   def initialize(yelp_business)
