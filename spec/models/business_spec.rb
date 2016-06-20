@@ -12,7 +12,7 @@ describe Business do
     state_code: "MA",
     postal_code: "12345"
   )}
-  let(:yelp_business) {instance_double("Yelp::Response::Model::Business",
+  let(:yelp_business) { instance_double("Yelp::Response::Model::Business",
     name: "Some business",
     url: "https://yelp.com/business-page",
     rating: "4.5",
@@ -20,7 +20,7 @@ describe Business do
     review_count: "1234",
     location: location
   )}
-
+  ## Use Factorygirl instead
   describe ".get_random_business" do
     it "gets a random business form the yelp api" do
       allow(Business).to receive(:get_businesses).and_return([yelp_business])
