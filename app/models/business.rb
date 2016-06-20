@@ -1,8 +1,7 @@
 require_relative 'yelp_api'
 
 class Business
-  # @@yelp_api = Yelp
-  # cattr_accessor :yelp_api
+  @@yelp_api = YelpApi
   attr_reader :name, :url, :rating, :rating_image, :review_count
 
   def initialize(yelp_business)
@@ -50,7 +49,7 @@ class Business
   end
 
   def self.get_random_business
-    businesses = get_businesses
+    businesses = @@yelp_api.get_businesses_near(current_address)
     if(businesses.empty?)
       nil
     else

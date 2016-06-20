@@ -1,29 +1,28 @@
 require 'spec_helper'
 
 #fake class to deal with method chaining for Business double
-class Location
-  attr_reader :address, :city, :state_code, :postal_code
-end
+# Possible use struct instead?
+# class Location
+#   attr_reader :address, :city, :state_code, :postal_code
+# end
 
 describe Business do
-  let(:location){ instance_double("Location",
-    address: ["123 Street"],
-    city: "Boston",
-    state_code: "MA",
-    postal_code: "12345"
-  )}
-  let(:yelp_business) { instance_double("Yelp::Response::Model::Business",
-    name: "Some business",
-    url: "https://yelp.com/business-page",
-    rating: "4.5",
-    rating_img_url_small: "some_image.png",
-    review_count: "1234",
-    location: location
-  )}
-  ## Use Factorygirl instead
+#   let(:location){ instance_double("Location",
+#     address: ["123 Street"],
+#     city: "Boston",
+#     state_code: "MA",
+#     postal_code: "12345"
+#   )}
+  let(:yelp_business) { YelpApiFake.get_businesses_near("na")[0] }
+  ## Use Factorygirl instead?
+
+  before do
+    Business.class_variable_set(:@@yelp_api, YelpApiFake)
+  end
+
   describe ".get_random_business" do
     it "gets a random business form the yelp api" do
-      allow(Business).to receive(:get_businesses).and_return([yelp_business])
+      # allow(Business).to receive(:get_businesses).and_return([yelp_business])
 
       new_business = Business.get_random_business
 
@@ -32,9 +31,12 @@ describe Business do
     end
 
     it "returns nil if no businesses are available" do
-      allow(Business).to receive(:get_businesses).and_return([])
+      # allow(Business).to receive(:get_businesses).and_return([])
+      YelpApiFake.class_variable_set(:@@return_nil, true)
 
       expect(Business.get_random_business).to eq(nil)
+
+      YelpApiFake.class_variable_set(:@@return_nil, false)
     end
   end
 

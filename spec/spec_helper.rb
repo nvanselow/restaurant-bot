@@ -7,6 +7,8 @@ require_relative '../app.rb'
 require 'valid_attribute'
 require 'shoulda/matchers'
 
+require_relative 'support/yelp_api_fake'
+
 set :environment, :test
 set :database, :test
 
