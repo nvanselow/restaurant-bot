@@ -8,6 +8,10 @@ This is currently under development.
 This Slack slash command will allow a Slack user to type `/lunch_idea` in to
 Slack to get a random restaurant within a mile of an address provided in `ENV['ADDRESS']`.
 
+In Slack:
+
+![Example of Lunch Idea](/readme_files/example.gif)
+
 This command uses the Yelp api to identify possible restaurants.
 Because this is a fairly simple project with only one route with no views, I opted to use the more lightweight Sinatra framework rather than the more complex Rails.
 
